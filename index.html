@@ -1,265 +1,299 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Estoque de Brindes INPEL</title>
 <style>
-:root{--red:#c8202f;--dark:#1a1a2e;--ink:#20232a;--muted:#747b86;--line:#e9e9ed;--bg:#f6f6f8;--white:#fff;--green:#18824b;--amber:#aa6800}
-*{box-sizing:border-box;margin:0}
-html,body{height:auto;min-height:100%;overflow-x:hidden;overflow-y:auto}
-body{background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
-header{background:var(--white);border-bottom:1px solid var(--line);padding:18px clamp(16px,4vw,56px);display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;position:sticky;top:0;z-index:5}
-.brand{display:flex;align-items:center;gap:12px}
-.mark{width:42px;height:42px;border-radius:13px;background:var(--red);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px}
-.brand strong{display:block;font-size:17px}
-.brand span{font-size:12px;color:var(--muted)}
-.head-actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
-button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:10px 14px;font-weight:700}
-.primary{background:var(--red);color:#fff}
-.soft{background:#f1f1f4;color:#3c4048}
-.outline{background:#fff;border:1px solid var(--line);color:#454a53}
-main{max-width:1200px;margin:auto;padding:28px clamp(16px,4vw,56px) 52px}
-.intro h1{font-size:27px;line-height:1.1;margin:0 0 7px}
-.intro p{margin:0;color:var(--muted)}
-.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:20px 0 26px}
-.kpi{background:#fff;border:1px solid var(--line);border-radius:15px;padding:17px 19px}
-.kpi small{color:var(--muted);font-weight:700;letter-spacing:.35px;text-transform:uppercase;font-size:11px}
-.kpi strong{display:block;font-size:29px;margin-top:5px}
-.kpi.alert strong{color:var(--red)}
-.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
-.search{position:relative;flex:1;min-width:210px;max-width:380px}
-.search input{width:100%;border:1px solid var(--line);background:#fff;border-radius:10px;padding:11px 13px 11px 38px;font:inherit;outline:none}
-.filters{display:flex;gap:7px}
-.filter{border:1px solid var(--line);background:#fff;color:#626873;border-radius:999px;padding:8px 13px;font-weight:700}
-.filter.active{background:#fff0f1;border-color:#f2c7cb;color:var(--dark)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-.card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;min-width:0}
-.photo{height:158px;background:linear-gradient(145deg,#f9e8e9,#f4f4f6);display:grid;place-items:center;position:relative;overflow:hidden}
-.photo img{width:100%;height:100%;object-fit:cover}
-.emoji{font-size:62px}
-.stock-pill{position:absolute;top:11px;right:11px;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:800;background:#e7f5ed;color:var(--green)}
-.stock-pill.low{background:#fff0e0;color:var(--amber)}
-.stock-pill.out{background:#ffe7e9;color:#b51d2b}
-.card-body{padding:15px}
-.card-top{display:flex;justify-content:space-between;gap:8px;align-items:start}
-.card h3{font-size:17px;line-height:1.2;margin:0 0 5px}
-.category{font-size:12px;color:var(--muted)}
-.edit{background:#f3f3f5;border-radius:8px;padding:6px 9px;color:#555;font-size:12px;font-weight:700}
-.quantity{display:flex;align-items:end;justify-content:space-between;margin:18px 0 14px}
-.quantity strong{font-size:28px;line-height:1}
-.quantity span,.minline{color:var(--muted);font-size:12px}
-.minline{text-align:right}
-.bar{height:6px;background:#f0f0f2;border-radius:9px;overflow:hidden;margin:0 0 15px}
-.bar i{display:block;height:100%;border-radius:9px;background:var(--red)}
-.card-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.card-actions button{border-radius:9px;padding:9px 7px;font-weight:700}
-.in{background:#eaf6ef;color:#176b3b}
-.out{background:#fff0f1;color:#a91d29}
-.empty{grid-column:1/-1;border:1px dashed #d7d8de;background:#fff;border-radius:16px;text-align:center;padding:42px 18px}
-.empty-icon{font-size:38px}
-.empty h3{margin:8px 0 5px}
-.empty p{color:var(--muted);margin:0 0 16px}
-.footer{margin-top:26px;color:var(--muted);font-size:12px;text-align:center}
-.overlay{position:fixed;inset:0;background:#10121ab3;display:none;place-items:center;padding:16px;z-index:10}
-.overlay.open{display:grid}
-.modal{background:#fff;border-radius:16px;width:min(100%,470px);padding:22px;max-height:90vh;overflow:auto}
-.modal h2{margin:0 0 5px;font-size:21px}
-.modal p{margin:0 0 18px;color:var(--muted);font-size:13px}
-.field{display:block;margin:13px 0}
-.field span{display:block;font-size:12px;font-weight:700;margin-bottom:6px;color:#555b65}
-.field input,.field select{width:100%;border:1px solid #dfe0e5;border-radius:9px;padding:10px 11px;font:inherit;background:#fff}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.preview{width:75px;height:75px;border-radius:12px;background:#f6eeee;display:grid;place-items:center;overflow:hidden;margin-top:8px}
-.preview img{width:100%;height:100%;object-fit:cover}
-.preview b{font-size:32px}
-.modal-actions{display:flex;justify-content:end;gap:8px;margin-top:20px}
-.hint{font-size:11px;color:var(--muted);margin-top:6px}
-.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);opacity:0;background:#222;color:#fff;padding:11px 16px;border-radius:10px;z-index:20;transition:.2s;pointer-events:none}
-.toast.show{opacity:1;transform:translate(-50%,0)}
+:root{--red:#c8202f;--dark:#871b26;--ink:#22252b;--muted:#747b86;--bg:#f5f5f7;--line:#e7e7eb}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;min-height:100%;overflow-x:hidden;overflow-y:auto}
+body{font:15px Arial,sans-serif;color:var(--ink);background:var(--bg)}
+header{padding:12px 5%;background:#fff;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;position:sticky;top:0;z-index:2}
+.brand{display:flex;align-items:center;gap:12px}.logo{background:var(--red);color:#fff;border-radius:12px;padding:14px 10px;font-weight:bold}.brand strong{display:block}.brand small{color:var(--muted)}
+.header-actions{display:flex;gap:8px;flex-wrap:wrap}
+button{font:inherit;cursor:pointer;border:0;border-radius:9px;padding:10px 14px;font-weight:bold}.primary{background:var(--red);color:#fff}.light{background:#f0f0f3;color:#444}.ghost{background:#fff;color:#444;border:1px solid var(--line)}
+main{padding:28px 5% 90px}
+.content{max-width:1150px;margin:auto}
+h1{font-size:27px;margin:0 0 7px}p{color:var(--muted);margin:0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:22px 0}
+.stat,.card{background:#fff;border:1px solid var(--line);border-radius:14px}.stat{padding:16px}.stat small{color:var(--muted);font-weight:bold;text-transform:uppercase;font-size:11px}.stat strong{display:block;font-size:27px;margin-top:6px}.red{color:var(--red)}
+.tools{display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin:22px 0 14px}.tools input[type=search]{padding:11px 13px;border:1px solid var(--line);border-radius:9px;font:inherit;width:min(360px,100%)}
+.filters{display:flex;gap:7px}.filter{background:white;border:1px solid var(--line);color:#555}.filter.active{background:#fff0f1;color:var(--dark);border-color:#efc4c8}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.card{overflow:hidden;padding-bottom:14px;min-width:0}.photo{height:210px;background:linear-gradient(140deg,#fae9eb,#f1f1f4);display:grid;place-items:center;position:relative}.photo img{width:100%;height:100%;object-fit:cover}.emoji{font-size:58px}
+.badge{position:absolute;right:10px;top:10px;background:#e6f4eb;color:#176b3b;border-radius:20px;padding:6px 10px;font-size:11px;font-weight:bold}.badge.low{background:#fff0df;color:#9b6000}.badge.out{background:#ffe6e8;color:#b21e2d}
+.cardcontent{padding:14px}.cardtop{display:flex;justify-content:space-between;gap:8px;align-items:start}.card h3{font-size:17px;margin:0 0 5px;overflow-wrap:anywhere}.category{font-size:12px;color:var(--muted)}
+.edit{padding:8px 12px;background:#f0f0f3;color:#333;font-size:13px}
+.balance{display:flex;justify-content:space-between;align-items:end;margin:17px 0 10px}.balance strong{font-size:27px}.balance span{font-size:12px;color:var(--muted)}.bar{height:5px;background:#eee;border-radius:9px;margin-bottom:13px;overflow:hidden}.bar i{height:100%;display:block;background:var(--red)}
+.actions{display:grid;grid-template-columns:64px 1fr 1fr;gap:6px}.actions input{width:100%;min-width:0;border:1px solid var(--line);border-radius:8px;text-align:center;font:inherit}.entry{background:#e8f5ed;color:#176b3b}.exit{background:#fff0f1;color:#a51e29}
+.empty{grid-column:1/-1;background:white;text-align:center;padding:38px 16px;border:1px dashed #d5d6dc;border-radius:14px}.empty div{font-size:38px}.empty h3{margin:8px}.empty p{margin-bottom:15px}.note{text-align:center;color:var(--muted);font-size:12px;margin-top:24px}
+.overlay{position:fixed;inset:0;background:#1119;display:none;place-items:center;padding:15px;z-index:20;overflow:auto}.overlay.open{display:grid}.modal{width:min(460px,100%);max-height:none;background:white;border-radius:15px;padding:21px;margin:auto}.modal h2{margin:0 0 5px}.modal p{font-size:13px;margin-bottom:15px}.field{display:block;margin:12px 0}.field span{display:block;font-size:12px;font-weight:bold;margin-bottom:5px}.field input,.field select{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font:inherit}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.preview{width:68px;height:68px;margin-top:8px;border-radius:10px;background:#f6eeee;display:grid;place-items:center;overflow:hidden}.preview img{width:100%;height:100%;object-fit:cover}.modalactions{display:flex;justify-content:space-between;gap:8px;margin-top:18px}.modalactions .right{display:flex;gap:8px}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#222;color:white;padding:11px 16px;border-radius:9px;display:none;z-index:30}
+#copyBox{display:none;margin-top:16px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}#copyBox textarea{width:100%;height:90px;font:12px Consolas,monospace}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.stats{gap:7px}.stat{padding:11px}.stat small{font-size:9px}.stat strong{font-size:22px}.row{gap:7px}}
 </style>
 </head>
 <body>
 <header>
-  <div class="brand"><div class="mark">INPEL</div><div><strong>Estoque de brindes</strong><span>Controle simples, visual e atualizador</span></div></div>
-  <div class="head-actions">
-    <button class="btn outline" id="historyBtn">Movimentações</button>
-    <button class="btn outline" id="backupBtn">Baixar backup</button>
-    <button class="btn primary" id="addBtn">+ Novo brinde</button>
+  <div class="brand"><div class="logo">INPEL</div><div><strong>Estoque de brindes</strong><small>Controle visual e atualizado</small></div></div>
+  <div class="header-actions">
+    <button class="ghost" id="openButton" type="button">Abrir arquivo</button>
+    <button class="ghost" id="saveFileButton" type="button">Salvar arquivo</button>
+    <button class="primary" id="addButton" type="button">＋ Novo brinde</button>
+    <input id="openFile" type="file" accept=".json,.html,application/json,text/html" hidden>
   </div>
 </header>
 <main>
-  <section class="intro"><div><h1>Seus brindes, em um só lugar</h1><p>Adicione uma foto e registre entradas e saídas com um clique.</p></div></section>
-  <section class="kpis">
-    <div class="kpi"><small>Brindes cadastrados</small><strong id="totalItems">0</strong></div>
-    <div class="kpi"><small>Unidades disponíveis</small><strong id="totalUnits">0</strong></div>
-    <div class="kpi alert"><small>Precisam de reposição</small><strong id="lowItems">0</strong></div>
+<div class="content">
+  <h1>Seus brindes, em um só lugar</h1>
+  <p>Cadastre os itens, edite quando precisar e salve um arquivo para não perder nada.</p>
+  <section class="stats">
+    <div class="stat"><small>Brindes cadastrados</small><strong id="itemCount">0</strong></div>
+    <div class="stat"><small>Unidades disponíveis</small><strong id="unitCount">0</strong></div>
+    <div class="stat"><small>Precisam de reposição</small><strong class="red" id="lowCount">0</strong></div>
   </section>
-  <section class="toolbar">
-    <label class="search"><input id="search" type="search" placeholder="Buscar brinde..."></label>
-    <div class="filters"><button class="filter active" data-filter="all">Todos</button><button class="filter" data-filter="low">Estoque baixo</button></div>
+  <section class="tools">
+    <input id="search" type="search" placeholder="Buscar brinde...">
+    <div class="filters"><button class="filter active" data-filter="all" type="button">Todos</button><button class="filter" data-filter="low" type="button">Estoque baixo</button></div>
   </section>
-  <section id="grid" class="grid"></section>
-  <div class="footer">Os dados ficam salvos neste navegador. Use “Baixar backup” para guardar uma cópia.</div>
+  <section class="grid" id="cards"></section>
+  <div id="copyBox">
+    <p>Se o download não começar, copie o texto abaixo e cole num arquivo chamado estoque.json</p>
+    <textarea id="copyText" readonly></textarea>
+    <button class="primary" id="copyButton" type="button">Copiar</button>
+  </div>
+  <div class="note">O estoque fica neste navegador. Use Salvar arquivo para guardar uma cópia.</div>
+</div>
 </main>
-<div class="overlay" id="giftOverlay"><form class="modal" id="giftForm"><h2 id="giftTitle">Adicionar brinde</h2><p>Cadastre o item e, se quiser, escolha uma foto para o cartão.</p><input type="hidden" id="giftId"><label class="field"><span>Nome do brinde</span><input id="giftName" required maxlength="60" placeholder="Ex.: Caneca personalizada"></label><div class="row"><label class="field"><span>Categoria</span><input id="giftCategory" maxlength="35" placeholder="Ex.: Kit, vestuário"></label><label class="field"><span>Estoque mínimo</span><input id="giftMinimum" type="number" min="0" step="1" value="5"></label></div><div class="row"><label class="field"><span>Saldo inicial</span><input id="giftInitial" type="number" min="0" step="1" value="0"></label><label class="field"><span>Ícone</span><select id="giftEmoji"><option value="🎁">🎁</option><option value="☕">☕</option><option value="👕">👕</option><option value="🎒">🎒</option><option value="📝">📝</option><option value="🏆">🏆</option><option value="🧢">🧢</option><option value="🧴">🧴</option><option value="📦">📦</option></select></label></div><label class="field"><span>Foto do brinde (opcional)</span><input id="giftPhoto" type="file" accept="image/*"><div class="preview" id="imagePreview"><b>🎁</b></div><div class="hint">A foto é reduzida para carregar mais rápido.</div></label><div class="modal-actions"><button type="button" class="btn soft" data-close>Cancelar</button><button class="btn primary" type="submit">Salvar brinde</button></div></form></div>
-<div class="overlay" id="moveOverlay"><form class="modal" id="moveForm"><h2 id="moveTitle">Registrar movimentação</h2><p id="moveSubtitle"></p><input type="hidden" id="moveGiftId"><label class="field"><span>Tipo</span><select id="moveType"><option value="Entrada">Entrada</option><option value="Saída">Saída</option></select></label><label class="field"><span>Quantidade</span><input id="moveQuantity" type="number" min="1" step="1" required value="1"></label><label class="field"><span>Responsável (opcional)</span><input id="moveOwner" maxlength="40" placeholder="Nome"></label><div class="modal-actions"><button type="button" class="btn soft" data-close>Cancelar</button><button class="btn primary" type="submit">Confirmar</button></div></form></div>
-<div class="overlay" id="historyOverlay"><div class="modal"><h2>Últimas movimentações</h2><p>Entradas e saídas registradas neste navegador.</p><div id="historyList"></div><div class="modal-actions"><button type="button" class="btn soft" data-close>Fechar</button></div></div></div>
-<div id="toast" class="toast"></div>
+
+<div class="overlay" id="overlay">
+  <form class="modal" id="giftForm">
+    <h2 id="formTitle">Adicionar brinde</h2><p>Informe os dados e, se quiser, escolha uma foto.</p>
+    <input type="hidden" id="giftId">
+    <label class="field"><span>Nome do brinde</span><input id="name" required maxlength="60" placeholder="Ex.: Caneca personalizada"></label>
+    <div class="row">
+      <label class="field"><span>Categoria</span><input id="category" maxlength="35" placeholder="Ex.: Kit, vestuário"></label>
+      <label class="field"><span>Estoque mínimo</span><input id="minimum" type="number" min="0" step="1" value="5"></label>
+    </div>
+    <div class="row">
+      <label class="field"><span id="stockLabel">Quantidade</span><input id="stock" type="number" min="0" step="1" value="0"></label>
+      <label class="field"><span>Ícone</span><select id="emoji"><option>🎁</option><option>☕</option><option>🧢</option><option>👕</option><option>🔑</option><option>👜</option><option>📒</option><option>🧴</option><option>🧸</option></select></label>
+    </div>
+    <label class="field"><span>Foto do brinde (opcional)</span><input id="photoFile" type="file" accept="image/*"><div class="preview" id="preview">🎁</div></label>
+    <div class="modalactions">
+      <button type="button" class="exit" id="deleteButton" hidden>Excluir</button>
+      <div class="right"><button type="button" class="light" id="cancelButton">Cancelar</button><button class="primary" type="submit">Salvar</button></div>
+    </div>
+  </form>
+</div>
+<div id="toast"></div>
+<script id="seed" type="application/json">{"gifts":[],"moves":[],"savedAt":0}</script>
 <script>
-const KEY="inpel_gifts_site_v1";
-let state={gifts:[],moves:[]};
-let filter="all";
-let pendingPhoto=null;
-try{const saved=localStorage.getItem(KEY);if(saved)state=JSON.parse(saved)}catch(e){}
+const KEY="inpel_brindes_preview";
 const $=id=>document.getElementById(id);
-function esc(s){
-  if(s==null)return "";
-  var amp = String.fromCharCode(38)+"amp;";
-  var lt = String.fromCharCode(38)+"lt;";
-  var gt = String.fromCharCode(38)+"gt;";
-  var quot = String.fromCharCode(38)+"quot;";
-  var apos = String.fromCharCode(38)+"#39;";
-  return String(s).split("&").join(amp).split("<").join(lt).split(">").join(gt).split('"').join(quot).split("'").join(apos);
+let data={gifts:[],moves:[],savedAt:0},selectedPhoto=null,activeFilter="all";
+function parseState(raw){
+  if(!raw||!Array.isArray(raw.gifts))return null;
+  return {gifts:raw.gifts,moves:Array.isArray(raw.moves)?raw.moves:[],savedAt:Number(raw.savedAt)||0};
 }
-const uid=()=>(crypto.randomUUID?crypto.randomUUID():"id"+Date.now()+Math.random().toString(16).slice(2));
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){toast("Não foi possível salvar. Tente uma foto menor.")}};
-const qty=g=>{let n=g.initial||0;for(const m of state.moves){if(m.giftId===g.id)n+=(m.type==="Entrada"?m.quantity:-m.quantity)}return n};
-function toast(t){const el=$("toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),2300)}
+function load(){
+  let embedded=null;
+  try{embedded=parseState(JSON.parse($("seed").textContent))}catch(e){}
+  let local=null;
+  try{local=parseState(JSON.parse(localStorage.getItem(KEY)))}catch(e){}
+  if(local&&embedded)data=(local.savedAt>=embedded.savedAt)?local:embedded;
+  else data=local||embedded||{gifts:[],moves:[],savedAt:0};
+  data.gifts.forEach(g=>{g.id=String(g.id)});
+  data.moves.forEach(m=>{m.giftId=String(m.giftId)});
+}
+function persist(){
+  data.savedAt=Date.now();
+  try{localStorage.setItem(KEY,JSON.stringify(data));return true}
+  catch(e){notify("Não foi possível gravar neste navegador. Use Salvar arquivo.");return false}
+}
+function delta(g){
+  return data.moves.filter(m=>String(m.giftId)===String(g.id)).reduce((n,m)=>{
+    const amount=Number(m.amount!=null?m.amount:m.quantity)||0;
+    const entrada=m.type==="entrada"||m.type==="Entrada";
+    return n+(entrada?amount:-amount);
+  },0);
+}
+function quantity(g){return (Number(g.initial)||0)+delta(g)}
+function notify(text){$("toast").textContent=text;$("toast").style.display="block";setTimeout(()=>$("toast").style.display="none",2400)}
 function render(){
-  const q=($("search").value||"").trim().toLowerCase();
-  const lowCount=state.gifts.filter(g=>qty(g)<=(g.minimum||0)).length;
-  $("totalItems").textContent=state.gifts.length;
-  $("totalUnits").textContent=state.gifts.reduce((n,g)=>n+qty(g),0);
-  $("lowItems").textContent=lowCount;
-  const list=state.gifts.filter(g=>(filter!=="low"||qty(g)<=(g.minimum||0)) && (!q||(g.name+" "+(g.category||"")).toLowerCase().includes(q)));
-  if(!list.length){
-    $("grid").innerHTML=state.gifts.length?'<div class="empty"><div class="empty-icon">🔍</div><h3>Nenhum brinde encontrado</h3><p>Tente mudar a busca ou o filtro.</p></div>':'<div class="empty"><div class="empty-icon">🎁</div><h3>Seu estoque começa aqui</h3><p>Cadastre o primeiro brinde e acompanhe as quantidades por aqui.</p><button class="btn primary" onclick="openGift()">+ Adicionar primeiro brinde</button></div>';
+  const query=$("search").value.trim().toLowerCase();
+  $("itemCount").textContent=data.gifts.length;
+  $("unitCount").textContent=data.gifts.reduce((n,g)=>n+quantity(g),0);
+  $("lowCount").textContent=data.gifts.filter(g=>quantity(g)<=Number(g.minimum||0)).length;
+  const shown=data.gifts.filter(g=>(activeFilter==="all"||quantity(g)<=Number(g.minimum||0))&&String(g.name||"").toLowerCase().includes(query));
+  const cards=$("cards");
+  cards.replaceChildren();
+  if(!shown.length){
+    const empty=document.createElement("div");
+    empty.className="empty";
+    empty.innerHTML=data.gifts.length?'<div>🔎</div><h3>Nenhum brinde encontrado</h3><p>Mude a busca ou o filtro para ver os itens.</p>':'<div>🎁</div><h3>Seu estoque começa aqui</h3><p>Cadastre o primeiro brinde para acompanhar as quantidades.</p>';
+    if(!data.gifts.length){
+      const btn=document.createElement("button");
+      btn.className="primary";btn.type="button";btn.textContent="＋ Adicionar brinde";
+      btn.addEventListener("click",()=>openForm(null));
+      empty.append(btn);
+    }
+    cards.append(empty);
     return;
   }
-  $("grid").innerHTML=list.map(g=>{
-    const n=qty(g); const isLow=n<=(g.minimum||0); const zero=n<=0;
-    const bar=Math.max(3,Math.min(100,g.minimum?Math.round(n/Math.max(g.minimum*2,n)*100):(n?100:3)));
-    const photoHtml=g.photo?'<img src="'+g.photo+'" alt="'+esc(g.name)+'">':'<span class="emoji">'+esc(g.emoji||"🎁")+'</span>';
-    const pillClass=zero?"out":isLow?"low":"";
-    const pillText=zero?"Sem estoque":isLow?"Estoque baixo":"Disponível";
-    return '<article class="card"><div class="photo">'+photoHtml+'<span class="stock-pill '+pillClass+'">'+pillText+'</span></div><div class="card-body"><div class="card-top"><div><h3>'+esc(g.name)+'</h3><div class="category">'+esc(g.category||"Brinde")+'</div></div><button class="edit" onclick="editGift(\''+g.id+'\')">Editar</button></div><div class="quantity"><div><strong>'+n+'</strong> <span>unidades</span></div><div class="minline">Mínimo: '+(g.minimum||0)+'</div></div><div class="bar"><i style="width:'+bar+'%;opacity:'+(isLow?0.65:0.9)+'"></i></div><div class="card-actions"><button class="in" onclick="openMove(\''+g.id+'\',\'Entrada\')">+ Entrada</button><button class="out" onclick="openMove(\''+g.id+'\',\'Saída\')">- Saída</button></div></div></article>';
-  }).join("");
-}
-function open(id){$(id).classList.add("open")}
-function close(el){el.closest(".overlay").classList.remove("open")}
-function openGift(g){
-  pendingPhoto=null;
-  $("giftForm").reset();
-  $("giftId").value=g?g.id:"";
-  $("giftTitle").textContent=g?"Editar brinde":"Adicionar brinde";
-  $("giftName").value=g?g.name:"";
-  $("giftCategory").value=g?g.category||"":"";
-  $("giftMinimum").value=g?g.minimum??5:5;
-  $("giftInitial").value=g?g.initial??0:0;
-  $("giftEmoji").value=g?g.emoji||"🎁":"🎁";
-  $("giftPhoto").value="";
-  $("imagePreview").innerHTML=g&&g.photo?'<img src="'+g.photo+'" alt="">':'<b>'+esc(g?g.emoji||"🎁":"🎁")+'</b>';
-  open("giftOverlay");
-}
-window.openGift=function(){openGift(null)};
-window.editGift=function(id){openGift(state.gifts.find(g=>g.id===id))};
-window.openMove=function(id,type){
-  const g=state.gifts.find(x=>x.id===id);
-  if(!g)return;
-  $("moveForm").reset();
-  $("moveGiftId").value=id;
-  $("moveType").value=type;
-  $("moveTitle").textContent=type+" de brinde";
-  $("moveSubtitle").textContent=g.name+" • saldo atual: "+qty(g)+" unidades";
-  open("moveOverlay");
-};
-function shrink(file){
-  return new Promise((resolve,reject)=>{
-    const r=new FileReader();
-    r.onload=()=>{
-      const im=new Image();
-      im.onload=()=>{
-        const scale=Math.min(1,700/Math.max(im.width,im.height));
-        const c=document.createElement("canvas");
-        c.width=Math.round(im.width*scale);
-        c.height=Math.round(im.height*scale);
-        c.getContext("2d").drawImage(im,0,0,c.width,c.height);
-        resolve(c.toDataURL("image/jpeg",0.78));
-      };
-      im.onerror=reject;
-      im.src=r.result;
-    };
-    r.onerror=reject;
-    r.readAsDataURL(file);
+  shown.forEach(g=>{
+    const n=quantity(g),low=n<=Number(g.minimum||0),out=n<=0;
+    const card=document.createElement("article");card.className="card";
+    const photo=document.createElement("div");photo.className="photo";
+    if(g.photo){const img=document.createElement("img");img.src=g.photo;img.alt=g.name;photo.append(img)}
+    else{const icon=document.createElement("span");icon.className="emoji";icon.textContent=g.emoji||"🎁";photo.append(icon)}
+    const badge=document.createElement("span");badge.className="badge"+(out?" out":low?" low":"");badge.textContent=out?"Sem estoque":low?"Estoque baixo":"Disponível";photo.append(badge);
+    const content=document.createElement("div");content.className="cardcontent";
+    const top=document.createElement("div");top.className="cardtop";
+    const nameBox=document.createElement("div"),title=document.createElement("h3"),category=document.createElement("div");
+    title.textContent=g.name;category.className="category";category.textContent=g.category||"Brinde";nameBox.append(title,category);
+    const edit=document.createElement("button");edit.type="button";edit.className="edit";edit.textContent="Editar";
+    edit.addEventListener("click",()=>openForm(g));
+    top.append(nameBox,edit);
+    const balance=document.createElement("div");balance.className="balance";
+    const strong=document.createElement("strong");strong.textContent=String(n);
+    const span=document.createElement("span");span.innerHTML="unidades<br>Mínimo: "+Number(g.minimum||0);
+    balance.append(strong,span);
+    const bar=document.createElement("div");bar.className="bar";const fill=document.createElement("i");
+    const base=Math.max(Number(g.minimum||0)*2,1);
+    fill.style.width=Math.max(4,Math.min(100,Math.round(n/base*100)))+"%";bar.append(fill);
+    const actions=document.createElement("div");actions.className="actions";
+    const amount=document.createElement("input");amount.type="number";amount.min="1";amount.step="1";amount.value="1";amount.setAttribute("aria-label","Quantidade");
+    const entry=document.createElement("button");entry.type="button";entry.className="entry";entry.textContent="+ Entrada";
+    const exit=document.createElement("button");exit.type="button";exit.className="exit";exit.textContent="− Saída";
+    entry.addEventListener("click",()=>move(g,"entrada",amount));
+    exit.addEventListener("click",()=>move(g,"saida",amount));
+    actions.append(amount,entry,exit);content.append(top,balance,bar,actions);card.append(photo,content);cards.append(card);
   });
 }
-$("giftPhoto").addEventListener("change",async function(e){
-  const f=e.target.files[0];
-  if(!f)return;
-  try{
-    pendingPhoto=await shrink(f);
-    $("imagePreview").innerHTML='<img src="'+pendingPhoto+'" alt="">';
-  }catch(err){toast("Não consegui abrir essa foto.")}
+function move(gift,type,input){
+  const amount=Math.max(1,Number(input.value)||1);
+  if(type==="saida"&&amount>quantity(gift)){notify("A saída é maior que o saldo disponível.");return}
+  data.moves.unshift({giftId:String(gift.id),type:type,amount:amount});
+  persist();render();notify(type==="entrada"?"Entrada registrada.":"Saída registrada.");
+}
+function openForm(g){
+  selectedPhoto=null;
+  $("giftForm").reset();
+  $("giftId").value=g?String(g.id):"";
+  $("formTitle").textContent=g?"Editar brinde":"Adicionar brinde";
+  $("stockLabel").textContent=g?"Quantidade atual":"Quantidade";
+  $("deleteButton").hidden=!g;
+  $("name").value=g?g.name:"";
+  $("category").value=g?(g.category||""):"";
+  $("stock").value=g?quantity(g):0;
+  $("minimum").value=g?Number(g.minimum||0):5;
+  $("emoji").value=(g&&g.emoji)?g.emoji:"🎁";
+  $("preview").replaceChildren();
+  if(g&&g.photo){const img=document.createElement("img");img.src=g.photo;img.alt="";$("preview").append(img)}
+  else $("preview").textContent=g&&g.emoji?g.emoji:"🎁";
+  $("overlay").classList.add("open");
+  $("name").focus();
+}
+function closeForm(){$("overlay").classList.remove("open")}
+function download(name,text,type){
+  const blob=new Blob([text],{type:type});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download=name;document.body.append(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+function saveFile(){
+  persist();
+  const payload=JSON.stringify(data,null,2);
+  $("copyText").value=payload;
+  $("copyBox").style.display="block";
+  download("estoque-brindes.json",payload,"application/json");
+  notify("Arquivo salvo. Guarde o estoque-brindes.json.");
+}
+function applyState(next){
+  const parsed=parseState(next);
+  if(!parsed){notify("Esse arquivo não é um estoque válido.");return}
+  data=parsed;
+  data.gifts.forEach(g=>{g.id=String(g.id)});
+  data.moves.forEach(m=>{m.giftId=String(m.giftId)});
+  data.savedAt=Date.now();
+  persist();render();notify("Estoque aberto.");
+}
+$("addButton").addEventListener("click",()=>openForm(null));
+$("cancelButton").addEventListener("click",closeForm);
+$("overlay").addEventListener("click",e=>{if(e.target===$("overlay"))closeForm()});
+$("deleteButton").addEventListener("click",()=>{
+  const id=$("giftId").value;
+  if(!id)return;
+  data.gifts=data.gifts.filter(g=>String(g.id)!==id);
+  data.moves=data.moves.filter(m=>String(m.giftId)!==id);
+  persist();render();closeForm();notify("Brinde excluído.");
 });
-$("giftForm").addEventListener("submit",function(e){
+$("photoFile").addEventListener("change",e=>{
+  const file=e.target.files&&e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    const img=new Image();
+    img.onload=()=>{
+      const scale=Math.min(1,650/Math.max(img.width,img.height));
+      const canvas=document.createElement("canvas");
+      canvas.width=Math.max(1,Math.round(img.width*scale));
+      canvas.height=Math.max(1,Math.round(img.height*scale));
+      canvas.getContext("2d").drawImage(img,0,0,canvas.width,canvas.height);
+      selectedPhoto=canvas.toDataURL("image/jpeg",0.74);
+      $("preview").replaceChildren();
+      const view=document.createElement("img");view.src=selectedPhoto;view.alt="";$("preview").append(view);
+    };
+    img.src=reader.result;
+  };
+  reader.readAsDataURL(file);
+});
+$("giftForm").addEventListener("submit",e=>{
   e.preventDefault();
   const id=$("giftId").value;
-  const name=$("giftName").value.trim();
+  const name=$("name").value.trim();
   if(!name)return;
-  if(state.gifts.some(g=>g.name.toLowerCase()===name.toLowerCase()&&g.id!==id)){
-    toast("Já existe um brinde com esse nome.");
-    return;
-  }
-  const old=state.gifts.find(g=>g.id===id);
-  const g={
-    id:id||uid(),
+  if(data.gifts.some(g=>g.name.toLowerCase()===name.toLowerCase()&&String(g.id)!==id)){notify("Já existe um brinde com esse nome.");return}
+  const old=data.gifts.find(g=>String(g.id)===id);
+  const desired=Math.max(0,Number($("stock").value)||0);
+  const gift={
+    id:id||String(Date.now()),
     name:name,
-    category:$("giftCategory").value.trim(),
-    minimum:Number($("giftMinimum").value)||0,
-    initial:Number($("giftInitial").value)||0,
-    emoji:$("giftEmoji").value,
-    photo:pendingPhoto||(old?old.photo:"")
+    category:$("category").value.trim(),
+    minimum:Math.max(0,Number($("minimum").value)||0),
+    emoji:$("emoji").value||"🎁",
+    photo:selectedPhoto!=null?selectedPhoto:(old?old.photo||"":"")
   };
-  if(old)Object.assign(old,g);else state.gifts.push(g);
-  save();render();close(e.target);toast("Brinde salvo.");
+  gift.initial=old?desired-delta(old):desired;
+  if(old)Object.assign(old,gift);else data.gifts.push(gift);
+  persist();render();closeForm();notify(old?"Brinde atualizado.":"Brinde salvo.");
 });
-$("moveForm").addEventListener("submit",function(e){
-  e.preventDefault();
-  const g=state.gifts.find(x=>x.id===$("moveGiftId").value);
-  const type=$("moveType").value;
-  const quantity=Number($("moveQuantity").value);
-  if(!g||quantity<1)return;
-  if(type==="Saída"&&quantity>qty(g)){toast("A saída é maior que o saldo disponível.");return}
-  state.moves.unshift({id:uid(),giftId:g.id,name:g.name,type:type,quantity:quantity,owner:$("moveOwner").value.trim(),date:new Date().toISOString()});
-  save();render();close(e.target);toast(type+" registrada.");
-});
-$("addBtn").onclick=function(){openGift(null)};
 $("search").addEventListener("input",render);
-document.querySelectorAll(".filter").forEach(function(b){
-  b.onclick=function(){
-    filter=b.dataset.filter;
-    document.querySelectorAll(".filter").forEach(function(x){x.classList.toggle("active",x===b)});
-    render();
-  };
+document.querySelectorAll(".filter").forEach(button=>button.addEventListener("click",()=>{
+  activeFilter=button.dataset.filter;
+  document.querySelectorAll(".filter").forEach(item=>item.classList.toggle("active",item===button));
+  render();
+}));
+$("saveFileButton").addEventListener("click",saveFile);
+$("openButton").addEventListener("click",()=>$("openFile").click());
+$("openFile").addEventListener("change",async e=>{
+  const file=e.target.files&&e.target.files[0];
+  e.target.value="";
+  if(!file)return;
+  try{
+    const text=await file.text();
+    const fromHtml=text.match(/<script id="seed" type="application\/json">([\s\S]*?)<\/script>/);
+    applyState(JSON.parse(fromHtml?fromHtml[1]:text));
+  }catch(err){notify("Não consegui ler esse arquivo.")}
 });
-document.querySelectorAll("[data-close]").forEach(function(b){b.onclick=function(){close(b)}});
-document.querySelectorAll(".overlay").forEach(function(o){
-  o.addEventListener("click",function(e){if(e.target===o)o.classList.remove("open")});
+$("copyButton").addEventListener("click",async()=>{
+  try{await navigator.clipboard.writeText($("copyText").value);notify("Texto copiado.")}
+  catch(e){$("copyText").select();notify("Selecione o texto e copie com Ctrl+C.")}
 });
-$("historyBtn").onclick=function(){
-  const rows=state.moves.slice(0,20);
-  $("historyList").innerHTML=rows.length?rows.map(function(m){
-    return '<div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #eee"><div><b>'+esc(m.type)+' • '+esc(m.name)+'</b><div style="font-size:12px;color:#777">'+new Date(m.date).toLocaleString("pt-BR")+(m.owner?" • "+esc(m.owner):"")+'</div></div><b style="color:'+(m.type==="Entrada"?"#18824b":"#c8202f")+'">'+(m.type==="Entrada"?"+":"-")+m.quantity+'</b></div>';
-  }).join(""):'<p style="color:#777">Ainda não há movimentações.</p>';
-  open("historyOverlay");
-};
-$("backupBtn").onclick=function(){
-  const a=document.createElement("a");
-  const url=URL.createObjectURL(new Blob([JSON.stringify(state,null,2)],{type:"application/json"}));
-  a.href=url;a.download="estoque-brindes-inpel-backup.json";a.click();URL.revokeObjectURL(url);
-  toast("Backup baixado.");
-};
+load();
 render();
 </script>
 </body>
